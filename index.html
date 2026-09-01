@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpaceSails</title>
+    <base href="/SpaceSails-play/" />
+    <link href="_framework/dotnet.t2ul0zamoy.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-hRcULn8/qhUp+UGZ+N46rduAkPI8XMiYYWukEbIzOyI=" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css?v=cbf8ac85a" />
+    <link rel="stylesheet" href="css/app.css?v=cbf8ac85a" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="SpaceSails.Client.styles.css?v=cbf8ac85a" rel="stylesheet" />
+    <script type="importmap">{
+  "imports": {
+    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.958z1vx7fr.js",
+    "./_framework/dotnet.native.js": "./_framework/dotnet.native.px8mj9891e.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.zbexyp8zrs.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.t2ul0zamoy.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/blazor.webassembly.958z1vx7fr.js": "sha256-A59Tr9HqEhHMu8kU7kruLI9ayw5MRS6Lvc6z7jCbghk=",
+    "./_framework/blazor.webassembly.js": "sha256-A59Tr9HqEhHMu8kU7kruLI9ayw5MRS6Lvc6z7jCbghk=",
+    "./_framework/dotnet.js": "sha256-hRcULn8/qhUp+UGZ+N46rduAkPI8XMiYYWukEbIzOyI=",
+    "./_framework/dotnet.native.js": "sha256-vU1I+ZAC51wl0N1fWurDYTXIIYbw3nEPJN2txXaqAg8=",
+    "./_framework/dotnet.native.px8mj9891e.js": "sha256-vU1I+ZAC51wl0N1fWurDYTXIIYbw3nEPJN2txXaqAg8=",
+    "./_framework/dotnet.runtime.js": "sha256-MZMguyke9CroSQl+L/SHIGFkPTD+LtYGXkXjAvwWx40=",
+    "./_framework/dotnet.runtime.zbexyp8zrs.js": "sha256-MZMguyke9CroSQl+L/SHIGFkPTD+LtYGXkXjAvwWx40=",
+    "./_framework/dotnet.t2ul0zamoy.js": "sha256-hRcULn8/qhUp+UGZ+N46rduAkPI8XMiYYWukEbIzOyI="
+  }
+}</script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="boot-screen">
+            <div class="boot-title">SpaceSails 🏴‍☠️</div>
+            <div class="boot-status" id="boot-status">Rigging the sails…</div>
+            <div class="boot-bar"><div class="boot-bar-fill" id="boot-bar-fill"></div></div>
+            <div class="boot-percent" id="boot-percent"></div>
+            <div class="boot-errors" id="boot-errors" hidden>
+                <div class="boot-errors-title">The rigging fouled — errors below. <a href="." style="color:#9fd6ff">Reload</a></div>
+                <pre id="boot-errors-list"></pre>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <!-- Boot-screen driver. Inline by necessity (§9 exception): renderer.js is loaded by the
+         app itself, so nothing else exists yet to show progress or catch a failed boot. -->
+    <script>
+        (function () {
+            var errBox = document.getElementById('boot-errors');
+            var errList = document.getElementById('boot-errors-list');
+            var status = document.getElementById('boot-status');
+            function showError(msg) {
+                if (!errBox || !errList) { return; }
+                errBox.hidden = false;
+                status.textContent = 'Boot trouble — the sails did not fill.';
+                errList.textContent += msg + '\n\n';
+            }
+            // THE BLACK BOX, JS SIDE (#963 follow-up). The .NET CrashLog cannot see an error that never
+            // reaches .NET — a renderer.js throw, a rejected interop promise. Those are written HERE, in
+            // the SAME crash-v1 line format CrashNote.TryParse reads, under the same key, so the Captain's
+            // desk shows them after the reload exactly like a managed one. The FIRST error of a page life
+            // is the interesting one, so a note already written is never overwritten.
+            var crashKey = 'spacesails.lastVoyageError';
+            var crashWritten = false;
+            function noteCrash(source, message, stack) {
+                if (crashWritten) { return; }
+                try {
+                    var ticks = (BigInt(621355968000000000) + BigInt(Date.now()) * BigInt(10000)).toString();
+                    var flat = function (t) { return String(t == null ? '' : t).replace(/[\r\n\t]+/g, ' / ').slice(0, 400); };
+                    var frames = String(stack || '').split('\n').slice(0, 4).map(flat).filter(function (f) { return f.length > 0; });
+                    window.localStorage.setItem(crashKey,
+                        ['crash-v1', source, 'JsError', flat(message), ticks].concat(frames).join('\n'));
+                    crashWritten = true;
+                } catch (ignored) {
+                    // no storage (private mode / quota) — the boot-error box below is then the only witness
+                }
+            }
+            // capture=true also catches resource-level failures (blocked/missing scripts,
+            // integrity mismatches), which otherwise leave a dead spinner and console-only clues.
+            window.addEventListener('error', function (e) {
+                if (e.target && (e.target.src || e.target.href)) {
+                    showError('Failed to load: ' + (e.target.src || e.target.href));
+                    noteCrash('page load', 'failed to load ' + (e.target.src || e.target.href), '');
+                } else if (e.message) {
+                    showError(e.message + (e.filename ? '\n  at ' + e.filename + ':' + e.lineno : ''));
+                    noteCrash('browser', e.message, (e.error && e.error.stack) || (e.filename ? e.filename + ':' + e.lineno : ''));
+                }
+            }, true);
+            window.addEventListener('unhandledrejection', function (e) {
+                showError('Unhandled: ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason));
+                noteCrash('promise', (e.reason && e.reason.message) || String(e.reason), e.reason && e.reason.stack);
+            });
+            // Blazor reports load progress via a CSS custom property on <html>.
+            var bar = document.getElementById('boot-bar-fill');
+            var pct = document.getElementById('boot-percent');
+            var timer = setInterval(function () {
+                var app = document.getElementById('app');
+                if (!app || !document.body.contains(bar)) { clearInterval(timer); return; }
+                var v = getComputedStyle(document.documentElement).getPropertyValue('--blazor-load-percentage')
+                    || getComputedStyle(app).getPropertyValue('--blazor-load-percentage');
+                v = parseInt(v, 10);
+                if (!isNaN(v)) {
+                    bar.style.width = v + '%';
+                    pct.textContent = v + '% — hauling the WebAssembly aboard';
+                    if (v >= 100) { pct.textContent = '100% — casting off'; }
+                }
+            }, 100);
+        })();
+    </script>
+    <script src="_framework/blazor.webassembly.958z1vx7fr.js"></script>
+</body>
+
+</html>

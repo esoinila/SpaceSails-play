@@ -1,0 +1,63 @@
+{
+  "name": "Sol",
+  "description": "The real solar system: circular coplanar orbits at true radii and periods. SI units (m, s, m^3/s^2). Phases are arbitrary epoch positions. Moons, orbital stations and pirate havens per the outer-reaches worldbuilding (vision par. 8): central space is policed and rich, the outer moons are sparse, secretive, pirate-friendly. A handful of discreet grey-market docks (Cinder Roost in Venus' clouds, The Rusty Roadstead off Mars, The Tilt out at Uranus) give the inner system its own boltholes to cool off in. The outer wells are oases in a large desert (#289): every gas giant carries a self-sustaining haven with a fuel pump — The Red Eye amid Jupiter's Galilean moons, Ringside Exchange at Saturn, The Tilt at Uranus, and The Deep out at Neptune — so no run ever strands beyond a pump. Two berths that had no moon within shuttle reach now get their landable ground (berth-matrix audit): Triton (retrograde, real-ish) puts a surface within a hop of The Deep, and The Clinker — a small captured cinder — gives Cinder Roost its own landing skerry off Venus. #957: the three grey-market berths were the only bodies here whose periods were hand-typed rather than Kepler's — Cinder Roost, The Rusty Roadstead and The Tilt whipped round their parents at 11.8, 10.5 and 35.9 km/s where gravity allows 4.7, 1.9 and 8.5, so no ship could ever ride alongside and the autopilot could only dock at them by phase luck. Every rail in this file is gravity's now, and EveryBerthRidesAGravityRailTests keeps it that way.",
+  "bodies": [
+    { "id": "sun",     "name": "Sun",     "parentId": null,  "mu": 1.32712440018e20, "bodyRadiusM": 6.9634e9,  "orbitRadiusM": 0,          "orbitPeriodS": 0,           "initialPhaseRad": 0 },
+    { "id": "mercury", "name": "Mercury", "parentId": "sun", "mu": 2.2032e13,        "bodyRadiusM": 2.4397e6,  "orbitRadiusM": 5.791e10,   "orbitPeriodS": 7.60052e6,   "initialPhaseRad": 0.0 },
+    { "id": "mercury-compute", "name": "Mercury Compute Farms", "parentId": "mercury", "mu": 0, "bodyRadiusM": 500,  "orbitRadiusM": 2.84e6,   "orbitPeriodS": 6405,        "initialPhaseRad": 0.2, "kind": "station" },
+    { "id": "venus",   "name": "Venus",   "parentId": "sun", "mu": 3.24859e14,       "bodyRadiusM": 6.0518e6,  "orbitRadiusM": 1.0821e11,  "orbitPeriodS": 1.94142e7,   "initialPhaseRad": 0.9, "atmosphere": { "refDensity": 65.0, "scaleHeightM": 1.6e4, "topAltitudeM": 1.5e5 } },
+    { "id": "cinder-roost", "name": "Cinder Roost", "parentId": "venus", "mu": 0, "bodyRadiusM": 700, "orbitRadiusM": 1.5e7, "orbitPeriodS": 20252, "initialPhaseRad": 1.3, "kind": "station", "haven": true },
+    { "id": "the-clinker", "name": "The Clinker", "parentId": "venus", "mu": 4.5e3, "bodyRadiusM": 2.0e3, "orbitRadiusM": 2.2e7, "orbitPeriodS": 35969, "initialPhaseRad": 1.3, "kind": "moon" },
+    { "id": "earth",   "name": "Earth",   "parentId": "sun", "mu": 3.986004418e14,   "bodyRadiusM": 6.371e6,   "orbitRadiusM": 1.496e11,   "orbitPeriodS": 3.1558149e7, "initialPhaseRad": 1.8, "atmosphere": { "refDensity": 1.2, "scaleHeightM": 8.0e3, "topAltitudeM": 1.4e5 } },
+    { "id": "luna",    "name": "Luna",    "parentId": "earth", "mu": 4.9048695e12,   "bodyRadiusM": 1.7374e6,  "orbitRadiusM": 3.844e8,    "orbitPeriodS": 2.3606e6,    "initialPhaseRad": 0.0, "kind": "moon" },
+    { "id": "selene-gate", "name": "Selene Gate", "parentId": "earth", "mu": 0, "bodyRadiusM": 1000, "orbitRadiusM": 3.844e8, "orbitPeriodS": 2.3606e6, "initialPhaseRad": 0.4, "kind": "station", "haven": true },
+    { "id": "satellite-factory", "name": "Highport Satellite Works", "parentId": "earth", "mu": 0, "bodyRadiusM": 300, "orbitRadiusM": 6.771e6, "orbitPeriodS": 5546, "initialPhaseRad": 2.4, "kind": "station" },
+    { "id": "mars",    "name": "Mars",    "parentId": "sun", "mu": 4.282837e13,      "bodyRadiusM": 3.3895e6,  "orbitRadiusM": 2.2794e11,  "orbitPeriodS": 5.93551e7,   "initialPhaseRad": 2.7, "atmosphere": { "refDensity": 0.02, "scaleHeightM": 1.1e4, "topAltitudeM": 1.2e5 } },
+    { "id": "phobos",  "name": "Phobos",  "parentId": "mars", "mu": 7.1e5,          "bodyRadiusM": 1.1e4,     "orbitRadiusM": 9.377e6,    "orbitPeriodS": 27554,       "initialPhaseRad": 1.4, "kind": "moon" },
+    { "id": "the-space-bar", "name": "The Rusty Roadstead", "parentId": "mars", "mu": 0, "bodyRadiusM": 900, "orbitRadiusM": 1.2e7, "orbitPeriodS": 39910, "initialPhaseRad": 3.1, "kind": "station", "haven": true },
+    { "id": "derelict-roadster", "name": "Derelict Roadster", "parentId": "sun", "mu": 0, "bodyRadiusM": 3, "orbitRadiusM": 1.7e11, "orbitPeriodS": 3.82e7, "initialPhaseRad": 2.5, "kind": "station", "hidden": true },
+    { "id": "jupiter", "name": "Jupiter", "parentId": "sun", "mu": 1.26686534e17,    "bodyRadiusM": 6.9911e7,  "orbitRadiusM": 7.7857e11,  "orbitPeriodS": 3.74336e8,   "initialPhaseRad": 3.6, "atmosphere": { "refDensity": 4.0e-6, "scaleHeightM": 3.0e4, "topAltitudeM": 4.0e5 } },
+    { "id": "europa",   "name": "Europa",   "parentId": "jupiter", "mu": 3.2038e12, "bodyRadiusM": 1.5608e6, "orbitRadiusM": 6.709e8,  "orbitPeriodS": 3.068226e5, "initialPhaseRad": 0.5, "kind": "moon" },
+    { "id": "ganymede", "name": "Ganymede", "parentId": "jupiter", "mu": 9.8907e12, "bodyRadiusM": 2.6341e6, "orbitRadiusM": 1.0704e9, "orbitPeriodS": 6.181531e5, "initialPhaseRad": 2.2, "kind": "moon" },
+    { "id": "callisto", "name": "Callisto", "parentId": "jupiter", "mu": 7.1808e12, "bodyRadiusM": 2.4103e6, "orbitRadiusM": 1.8827e9, "orbitPeriodS": 1.4419307e6, "initialPhaseRad": 3.0, "kind": "moon" },
+    { "id": "red-eye", "name": "The Red Eye", "parentId": "jupiter", "mu": 0, "bodyRadiusM": 1000, "orbitRadiusM": 8.5e8, "orbitPeriodS": 4.37e5, "initialPhaseRad": 2.2, "kind": "station", "haven": true },
+    { "id": "saturn",  "name": "Saturn",  "parentId": "sun", "mu": 3.7931187e16,     "bodyRadiusM": 5.8232e7,  "orbitRadiusM": 1.43353e12, "orbitPeriodS": 9.29596e8,   "initialPhaseRad": 4.5, "atmosphere": { "refDensity": 5.0e-6, "scaleHeightM": 1.2e5, "topAltitudeM": 7.0e5 } },
+    { "id": "titan",     "name": "Titan",     "parentId": "saturn", "mu": 8.9781e12, "bodyRadiusM": 2.575e6,  "orbitRadiusM": 1.22183e9, "orbitPeriodS": 1.377648e6, "initialPhaseRad": 5.15, "kind": "moon", "atmosphere": { "refDensity": 5.3, "scaleHeightM": 4.0e4, "topAltitudeM": 3.0e5 } },
+    { "id": "enceladus", "name": "Enceladus", "parentId": "saturn", "mu": 7.211e9,   "bodyRadiusM": 2.5226e5, "orbitRadiusM": 2.38037e8, "orbitPeriodS": 1.183868e5, "initialPhaseRad": 2.0, "kind": "moon", "haven": true },
+    { "id": "ringside-exchange", "name": "Ringside Exchange", "parentId": "saturn", "mu": 0, "bodyRadiusM": 1000, "orbitRadiusM": 1.35e9, "orbitPeriodS": 1.6006e6, "initialPhaseRad": 5.0, "kind": "station", "haven": true },
+    { "id": "uranus",  "name": "Uranus",  "parentId": "sun", "mu": 5.793939e15,      "bodyRadiusM": 2.5362e7,  "orbitRadiusM": 2.87246e12, "orbitPeriodS": 2.65104e9,   "initialPhaseRad": 5.4, "atmosphere": { "refDensity": 1.4e-5, "scaleHeightM": 1.2e5, "topAltitudeM": 1.0e6 } },
+    { "id": "miranda", "name": "Miranda", "parentId": "uranus", "mu": 4.4e9, "bodyRadiusM": 2.358e5, "orbitRadiusM": 1.299e8, "orbitPeriodS": 122083, "initialPhaseRad": 2.3, "kind": "moon" },
+    { "id": "the-tilt", "name": "The Tilt", "parentId": "uranus", "mu": 0, "bodyRadiusM": 1000, "orbitRadiusM": 8.0e7, "orbitPeriodS": 59065, "initialPhaseRad": 4.7, "kind": "station", "haven": true },
+    { "id": "neptune", "name": "Neptune", "parentId": "sun", "mu": 6.836529e15,      "bodyRadiusM": 2.4622e7,  "orbitRadiusM": 4.49506e12, "orbitPeriodS": 5.2004e9,    "initialPhaseRad": 0.4, "atmosphere": { "refDensity": 1.8e-5, "scaleHeightM": 1.0e5, "topAltitudeM": 9.0e5 } },
+    { "id": "triton", "name": "Triton", "parentId": "neptune", "mu": 1.4279e12, "bodyRadiusM": 1.3534e6, "orbitRadiusM": 3.5476e8, "orbitPeriodS": -5.0777e5, "initialPhaseRad": 2.9, "kind": "moon" },
+    { "id": "the-deep", "name": "The Deep", "parentId": "neptune", "mu": 0, "bodyRadiusM": 1000, "orbitRadiusM": 6.0e7, "orbitPeriodS": 3.53e4, "initialPhaseRad": 2.9, "kind": "station", "haven": true }
+  ],
+  "traffic": {
+    "// Zubrin's solar economy (#291)": "He3 is the oil of the outer system, scooped at the giants and their moons. The busiest lanes — the Gulf-of-Hormuz corridors — are the scoop worlds feeding Jupiter's energy-hungry habitat mega-works at Europa, not commutes from Earth. Earth is one node among several. Weights = economic activity: the giant He3 corridors carry the tonnage; the inner runs tick over in the background. 'publishesTimetable: false' = a discreet outer-reaches hauler (worldbuilding par.4) — flies and shows on sensors, never on the public board.",
+    "routes": [
+      { "from": "saturn", "to": "mars",   "cargo": "He3", "weight": 4 },
+      { "from": "saturn", "to": "earth",  "cargo": "He3", "weight": 3 },
+      { "from": "jupiter", "to": "mars",  "cargo": "He3", "weight": 3 },
+      { "from": "titan",  "to": "europa", "cargo": "He3", "weight": 7 },
+      { "from": "saturn", "to": "europa", "cargo": "He3", "weight": 6 },
+      { "from": "uranus", "to": "europa", "cargo": "He3", "weight": 5, "publishesTimetable": false },
+      { "from": "neptune", "to": "ganymede", "cargo": "He3", "weight": 4, "publishesTimetable": false },
+      { "from": "titan",  "to": "mars",   "cargo": "He3", "weight": 2, "publishesTimetable": false },
+      { "from": "titan",  "to": "earth",  "cargo": "He3", "weight": 2, "publishesTimetable": false },
+      { "from": "uranus", "to": "ringside-exchange", "cargo": "Deuterium slush", "weight": 2, "publishesTimetable": false },
+      { "// construction supply": "the resource chain feeding Jupiter's energy-hungry mega-works — reactor mass, hab sections and mining rigs out of the outer refineries and ring shipyards, inbound to Europa/Ganymede. Inward hauls the planner flies cleanly (outward inner-to-giant transfers are phase-fragile).",
+        "from": "neptune", "to": "europa", "cargo": "Reactor mass", "weight": 3, "publishesTimetable": false },
+      { "from": "saturn", "to": "ganymede", "cargo": "Habitat structurals", "weight": 3 },
+      { "from": "uranus", "to": "ganymede", "cargo": "Mining rigs", "weight": 2, "publishesTimetable": false },
+      { "from": "mars",   "to": "earth",  "cargo": "Machinery", "weight": 2 },
+      { "from": "earth",  "to": "mars",   "cargo": "Ice", "weight": 1 },
+      { "from": "venus",  "to": "earth",  "cargo": "Alloys", "weight": 2 },
+      { "from": "mercury-compute", "to": "earth", "cargo": "Compute cores", "weight": 1 },
+      { "from": "earth", "to": "mercury-compute", "cargo": "Compute cores", "weight": 1 }
+    ],
+    "podLaunchers": [
+      { "body": "luna", "cargo": "Compute cores" },
+      { "body": "mercury-compute", "cargo": "Compute cores" }
+    ]
+  }
+}
