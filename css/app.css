@@ -1,0 +1,251 @@
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* #299 — the overlay z-index scale, as ONE source of truth. These five band anchors mirror
+   SpaceSails.Core.OverlayBands (BaseMap / MapChrome / DesksAndPopups / DistressLifeline / Modal);
+   Map.razor.css sets every overlay's z-index to var(--z-BAND) (or calc(var(--z-BAND) + N) for a fine
+   layer within a band). CssZBandSyncTests parses this block AND Map.razor.css and fails `dotnet test`
+   the moment a value drifts from the Core constants — so a CSS edit that would bury a critical control
+   (Lab 34 / #293) goes red in the build, not in a playtest. Defined here (global, unscoped) rather than
+   in a scoped .razor.css so :root actually reaches the document root and the vars cascade everywhere.
+   Keep these values in lockstep with OverlayBands; do NOT hand-tune an overlay past its band. */
+:root {
+    --z-base-map: 0;
+    --z-map-chrome: 10;
+    --z-desks-popups: 1200;
+    --z-distress-lifeline: 1340;
+    --z-modal: 1360;
+}
+
+/* Owner request: "Peek" — temporarily clear every panel to read the map, then bring them back
+   (👁 button in the desk tab bar, the ` hotkey, or Escape). Global rather than scoped to
+   Map.razor.css so it also reaches child-component roots (the desk-chip strip).
+
+   #1038 · TWO CLASSES DECIDE THIS NOW, NOT A DEPTH. The rule used to read
+   `.map-peek > *:not(.map-canvas):not(.desk-tab-bar):not(.map-loading)` — every DIRECT child of the
+   page fades except three. The desk tab bar has been on that exemption list since the day peek was
+   written, because the bar carries the 👁 button that is the way back, and while the bar was a direct
+   child of .map-page it worked. #992 wrapped the top stack and the Nav HUD in .map-flowcolumn to make
+   the window-height arithmetic measurable, which put the bar two levels down — and a `>` exemption
+   that names a grandchild matches nothing. The column faded as one box and took the only labelled way
+   out with it, which is exactly the MODE the pop-up law (#992, owner 2026-08-24) forbids: a state the
+   player cannot see their way out of. A layout change silently repealed a law, and no test noticed.
+
+   So the survivors are MARKED rather than counted:
+     * .peek-keep         — the way out. It stays lit and clickable. (The desk tab bar.)
+     * .peek-passthrough  — a layout wrapper that is not itself an overlay: it does not fade, and the
+                            rule keeps walking DOWNWARD through it at any depth. (.map-flowcolumn and
+                            .map-topstack.) Wrap the bar in five more boxes tomorrow, mark them, and
+                            the way out still survives.
+   Everything else under the page fades. ThePeekIsAModeYouCanSeeYourWayOutOfTests reads this rule and
+   the real render tree together, so the next .map-flowcolumn goes red the day it is typed.
+
+   VISIBILITY, not just opacity — and that is the second half of #1038. `pointer-events: none` on a
+   faded box does NOT reach its controls: pointer-events INHERITS, and a descendant that declares
+   `pointer-events: auto` (which .map-hud's toolbar, readouts, frame chip and plot panel all do, by
+   design, so the canvas stays grabbable through the gaps) overrides an inherited value no matter how
+   !important the ancestor was. Opacity 0 is likewise not a hit-test barrier. So every control on the
+   HUD stayed pressable while invisible for as long as peek has existed — the owner asked whether the
+   buttons were "also there even though they are invisible", and they were. `visibility: hidden` is
+   inherited too, but nothing in this client ever declares `visibility: visible`, and a hidden subtree
+   is out of hit-testing AND out of the tab order, so the keyboard cannot reach a blind control either.
+   It is transitioned at 0s with the fade's own delay so the 0.12s fade still plays and the controls
+   go dead the instant the pixels do. */
+.map-peek > *:not(.map-canvas):not(.map-loading):not(.peek-passthrough),
+.map-peek .peek-passthrough > *:not(.peek-keep):not(.peek-passthrough) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none !important;
+    transition: opacity 0.12s ease, visibility 0s linear 0.12s;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.blazor-error-boundary {
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+    .blazor-error-boundary::after {
+        content: "An error has occurred."
+    }
+
+/* Boot screen — themed loading page with live progress and surfaced errors (PR-10).
+   Driven by the inline script in index.html; Blazor supplies --blazor-load-percentage. */
+.boot-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: #060912;
+    color: #e0e4ec;
+    font-family: system-ui, sans-serif;
+    padding: 1rem;
+}
+
+.boot-title {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+}
+
+.boot-status {
+    color: #9aa4b8;
+}
+
+.boot-bar {
+    width: min(28rem, 80vw);
+    height: 0.6rem;
+    border: 1px solid #2a3a55;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    background: #0b1220;
+}
+
+.boot-bar-fill {
+    height: 100%;
+    width: var(--blazor-load-percentage, 0%);
+    background: linear-gradient(90deg, #1b6ec2, #4dd0e1);
+    transition: width 0.1s ease-out;
+}
+
+.boot-percent {
+    font-size: 0.85rem;
+    color: #9aa4b8;
+    min-height: 1.2em;
+}
+
+.boot-errors {
+    margin-top: 1rem;
+    width: min(44rem, 92vw);
+    max-height: 40vh;
+    overflow: auto;
+    border: 1px solid #7a2e3a;
+    border-radius: 0.4rem;
+    background: #1a0d12;
+    padding: 0.75rem;
+}
+
+.boot-errors-title {
+    color: #ff8fa0;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.boot-errors pre {
+    color: #ffb3be;
+    font-size: 0.78rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
+}
+
+code {
+    color: #c02d76;
+}
+
+/* ── #782 · THE QUIET VOICE IS STILL A VOICE ─────────────────────────────────────────────────────────
+   Owner ruling, 2026-08-08: "All text needs to have good contrast from the background as a general
+   ruling… text that cannot be read is horrible."
+
+   Bootstrap's `.text-secondary` is #6c757d — a grey picked for a WHITE page. This game has no white
+   page. On the card family's own darkest fill, rgb(6, 9, 15), it measures 4.25:1, which is UNDER WCAG
+   AA for body text (4.5:1) — and it is the owner's own sentence about #780, "text and background are
+   both dark", wearing a utility class instead of a hand-typed colour.
+
+   Found by the live probe in tests/SpaceSails.UiGate/EveryTextReadsTests, which read it at 390 × 700
+   off the B1 counter card: the who-is-in-tonight line (#410) and the barkeep's tell (#781), both
+   4.25:1. There are ~179 of these across the client and every one of them is a QUIET aside on a dark
+   ground, so the fix belongs here — once, after Bootstrap in the load order — and not in 179 places.
+   #a8b3c4 measures 9.4:1 on the same ground and is still visibly the quieter voice next to the
+   #e8ecf4 the cards speak in. */
+.text-secondary {
+    color: #a8b3c4 !important;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+/* #963 follow-up — the crash net's own page (App.razor's ErrorBoundary). Global rather than scoped
+   because App.razor renders outside any page's scope, and it must paint even when the game did not. */
+.voyage-error {
+    max-width: 60rem;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 170, 120, 0.5);
+    border-radius: 0.5rem;
+    background: #10141f;
+    color: #e6ecff;
+}
+
+.voyage-error-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #060912;
+    border-radius: 0.4rem;
+    padding: 0.75rem;
+    color: #ffd9b0;
+}
