@@ -1,0 +1,23 @@
+{
+  "name": "Wheel of the World",
+  "description": "The ancients' sky: Venus, Earth and Mars ride a rigid spoke around Saturn the hub, which circles the Sun. The spoke is not gravity's work - something older holds it. Ships still obey Newton, which is why flying here is hard. Electric Universe layer on: the spoke carries a plasma river.",
+  "electricUniverse": true,
+  "streams": [
+    { "fromBodyId": "venus",  "toBodyId": "mars",    "halfWidthM": 4e9 },
+    { "fromBodyId": "saturn", "toBodyId": "jupiter", "halfWidthM": 3e10 }
+  ],
+  "bodies": [
+    { "id": "sun",     "name": "Sun",     "parentId": null,     "mu": 1.32712440018e20, "bodyRadiusM": 6.9634e9,  "orbitRadiusM": 0,          "orbitPeriodS": 0,           "initialPhaseRad": 0 },
+    { "id": "saturn",  "name": "Saturn",  "parentId": "sun",    "mu": 3.7931187e16,     "bodyRadiusM": 5.8232e7,  "orbitRadiusM": 1.43353e12, "orbitPeriodS": 9.29596e8,   "initialPhaseRad": 4.5 },
+
+    { "id": "venus",   "name": "Venus",   "parentId": "saturn", "mu": 3.24859e14,       "bodyRadiusM": 6.0518e6,  "orbitRadiusM": 2.5e10,     "orbitPeriodS": 1.0368e7,    "initialPhaseRad": 0.0 },
+    { "id": "earth",   "name": "Earth",   "parentId": "saturn", "mu": 3.986004418e14,   "bodyRadiusM": 6.371e6,   "orbitRadiusM": 4.0e10,     "orbitPeriodS": 1.0368e7,    "initialPhaseRad": 0.0 },
+    { "id": "mars",    "name": "Mars",    "parentId": "saturn", "mu": 4.282837e13,      "bodyRadiusM": 3.3895e6,  "orbitRadiusM": 5.5e10,     "orbitPeriodS": 1.0368e7,    "initialPhaseRad": 0.0 },
+    { "id": "luna",    "name": "Luna",    "parentId": "earth",  "mu": 4.9048695e12,     "bodyRadiusM": 1.7374e6,  "orbitRadiusM": 3.844e8,    "orbitPeriodS": 2.3606e6,    "initialPhaseRad": 0.0 },
+
+    { "id": "mercury", "name": "Mercury", "parentId": "sun",    "mu": 2.2032e13,        "bodyRadiusM": 2.4397e6,  "orbitRadiusM": 5.791e10,   "orbitPeriodS": 7.60052e6,   "initialPhaseRad": 0.0 },
+    { "id": "jupiter", "name": "Jupiter", "parentId": "sun",    "mu": 1.26686534e17,    "bodyRadiusM": 6.9911e7,  "orbitRadiusM": 7.7857e11,  "orbitPeriodS": 3.74336e8,   "initialPhaseRad": 3.6 },
+    { "id": "uranus",  "name": "Uranus",  "parentId": "sun",    "mu": 5.793939e15,      "bodyRadiusM": 2.5362e7,  "orbitRadiusM": 2.87246e12, "orbitPeriodS": 2.65104e9,   "initialPhaseRad": 5.4 },
+    { "id": "neptune", "name": "Neptune", "parentId": "sun",    "mu": 6.836529e15,      "bodyRadiusM": 2.4622e7,  "orbitRadiusM": 4.49506e12, "orbitPeriodS": 5.2004e9,    "initialPhaseRad": 0.4 }
+  ]
+}
