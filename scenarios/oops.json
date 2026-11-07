@@ -1,0 +1,43 @@
+{
+  "name": "Sol (Miners' Folly)",
+  "description": "The real solar system, one difference: a mining rig drilled through Luna's crust and shorted its own capacitor. Nobody meant to change the Moon's orbit -- but the accidental jolt scaled Luna's orbital speed by +15%, exactly the way the game's own engine pulses ever ship's velocity. labs/12-oops-at-the-moon computed the honest consequence: a wider, more eccentric orbit (e~0.335, period ~50.6 days instead of ~27.3) whose perigee visibly oscillates under the Sun's pull over months -- degraded, but never close to threatening the atmosphere. This file approximates that new orbit as a circular rail at its semi-major axis (5.7816e8 m), since this engine's ephemeris only supports circular orbits; the real post-accident orbit the lab integrated is actually eccentric. The rig itself is still up there, in a low scrappy orbit everyone now calls Miners' Folly.",
+  "bodies": [
+    { "id": "sun",     "name": "Sun",     "parentId": null,  "mu": 1.32712440018e20, "bodyRadiusM": 6.9634e9,  "orbitRadiusM": 0,          "orbitPeriodS": 0,           "initialPhaseRad": 0 },
+    { "id": "mercury", "name": "Mercury", "parentId": "sun", "mu": 2.2032e13,        "bodyRadiusM": 2.4397e6,  "orbitRadiusM": 5.791e10,   "orbitPeriodS": 7.60052e6,   "initialPhaseRad": 0.0 },
+    { "id": "mercury-compute", "name": "Mercury Compute Farms", "parentId": "mercury", "mu": 0, "bodyRadiusM": 500,  "orbitRadiusM": 2.84e6,   "orbitPeriodS": 6405,        "initialPhaseRad": 0.2, "kind": "station" },
+    { "id": "venus",   "name": "Venus",   "parentId": "sun", "mu": 3.24859e14,       "bodyRadiusM": 6.0518e6,  "orbitRadiusM": 1.0821e11,  "orbitPeriodS": 1.94142e7,   "initialPhaseRad": 0.9 },
+    { "id": "earth",   "name": "Earth",   "parentId": "sun", "mu": 3.986004418e14,   "bodyRadiusM": 6.371e6,   "orbitRadiusM": 1.496e11,   "orbitPeriodS": 3.1558149e7, "initialPhaseRad": 1.8 },
+    { "id": "luna",    "name": "Luna",    "parentId": "earth", "mu": 4.9048695e12,   "bodyRadiusM": 1.7374e6,  "orbitRadiusM": 5.781566e8, "orbitPeriodS": 4.375011e6,  "initialPhaseRad": 0.0, "kind": "moon" },
+    { "id": "miners-folly", "name": "Miners' Folly", "parentId": "luna", "mu": 0, "bodyRadiusM": 250, "orbitRadiusM": 3.0e6, "orbitPeriodS": 14741.7, "initialPhaseRad": 1.2, "kind": "station", "haven": true },
+    { "id": "satellite-factory", "name": "Highport Satellite Works", "parentId": "earth", "mu": 0, "bodyRadiusM": 300, "orbitRadiusM": 6.771e6, "orbitPeriodS": 5546, "initialPhaseRad": 2.4, "kind": "station" },
+    { "id": "mars",    "name": "Mars",    "parentId": "sun", "mu": 4.282837e13,      "bodyRadiusM": 3.3895e6,  "orbitRadiusM": 2.2794e11,  "orbitPeriodS": 5.93551e7,   "initialPhaseRad": 2.7 },
+    { "id": "jupiter", "name": "Jupiter", "parentId": "sun", "mu": 1.26686534e17,    "bodyRadiusM": 6.9911e7,  "orbitRadiusM": 7.7857e11,  "orbitPeriodS": 3.74336e8,   "initialPhaseRad": 3.6 },
+    { "id": "europa",   "name": "Europa",   "parentId": "jupiter", "mu": 3.2038e12, "bodyRadiusM": 1.5608e6, "orbitRadiusM": 6.709e8,  "orbitPeriodS": 3.068226e5, "initialPhaseRad": 0.5, "kind": "moon" },
+    { "id": "ganymede", "name": "Ganymede", "parentId": "jupiter", "mu": 9.8907e12, "bodyRadiusM": 2.6341e6, "orbitRadiusM": 1.0704e9, "orbitPeriodS": 6.181531e5, "initialPhaseRad": 1.5, "kind": "moon" },
+    { "id": "callisto", "name": "Callisto", "parentId": "jupiter", "mu": 7.1808e12, "bodyRadiusM": 2.4103e6, "orbitRadiusM": 1.8827e9, "orbitPeriodS": 1.4419307e6, "initialPhaseRad": 3.0, "kind": "moon" },
+    { "id": "saturn",  "name": "Saturn",  "parentId": "sun", "mu": 3.7931187e16,     "bodyRadiusM": 5.8232e7,  "orbitRadiusM": 1.43353e12, "orbitPeriodS": 9.29596e8,   "initialPhaseRad": 4.5 },
+    { "id": "titan",     "name": "Titan",     "parentId": "saturn", "mu": 8.9781e12, "bodyRadiusM": 2.575e6,  "orbitRadiusM": 1.22183e9, "orbitPeriodS": 1.377648e6, "initialPhaseRad": 1.0, "kind": "moon" },
+    { "id": "enceladus", "name": "Enceladus", "parentId": "saturn", "mu": 7.211e9,   "bodyRadiusM": 2.5226e5, "orbitRadiusM": 2.38037e8, "orbitPeriodS": 1.183868e5, "initialPhaseRad": 2.0, "kind": "moon", "haven": true },
+    { "id": "ringside-exchange", "name": "Ringside Exchange", "parentId": "saturn", "mu": 0, "bodyRadiusM": 1000, "orbitRadiusM": 1.35e9, "orbitPeriodS": 1.6006e6, "initialPhaseRad": 5.0, "kind": "station", "haven": true },
+    { "id": "uranus",  "name": "Uranus",  "parentId": "sun", "mu": 5.793939e15,      "bodyRadiusM": 2.5362e7,  "orbitRadiusM": 2.87246e12, "orbitPeriodS": 2.65104e9,   "initialPhaseRad": 5.4 },
+    { "id": "neptune", "name": "Neptune", "parentId": "sun", "mu": 6.836529e15,      "bodyRadiusM": 2.4622e7,  "orbitRadiusM": 4.49506e12, "orbitPeriodS": 5.2004e9,    "initialPhaseRad": 0.4 }
+  ],
+  "traffic": {
+    "routes": [
+      { "from": "saturn", "to": "mars", "cargo": "He3" },
+      { "from": "saturn", "to": "earth", "cargo": "He3" },
+      { "from": "jupiter", "to": "mars", "cargo": "He3" },
+      { "from": "mars", "to": "earth", "cargo": "Machinery" },
+      { "from": "earth", "to": "mars", "cargo": "Ice" },
+      { "from": "venus", "to": "earth", "cargo": "Alloys" },
+      { "from": "titan", "to": "mars", "cargo": "He3", "publishesTimetable": false },
+      { "from": "titan", "to": "earth", "cargo": "He3", "publishesTimetable": false },
+      { "from": "mercury-compute", "to": "earth", "cargo": "Compute cores" },
+      { "from": "earth", "to": "mercury-compute", "cargo": "Compute cores" }
+    ],
+    "podLaunchers": [
+      { "body": "luna", "cargo": "Compute cores" },
+      { "body": "mercury-compute", "cargo": "Compute cores" }
+    ]
+  }
+}
